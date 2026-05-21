@@ -1,0 +1,18 @@
+[package]
+name = "argus-core"
+version = "0.1.0"
+description = "Shared telemetry data model for the Argus observability platform."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+
+[lints]
+workspace = true
