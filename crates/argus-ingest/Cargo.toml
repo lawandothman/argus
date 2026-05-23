@@ -1,0 +1,15 @@
+[package]
+name = "argus-ingest"
+version = "0.1.0"
+description = "Telemetry ingest sources for Argus, including the synthetic demo generator."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+argus-core = { path = "../argus-core" }
+
+[lints]
+workspace = true
