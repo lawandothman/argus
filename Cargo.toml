@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/argus-core", "crates/argus-ingest"]
+members = ["crates/argus-core", "crates/argus-ingest", "crates/argus-demo"]
 
 [workspace.package]
 edition = "2024"

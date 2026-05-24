@@ -1,0 +1,16 @@
+[package]
+name = "argus-demo"
+version = "0.1.0"
+description = "A runnable showcase that streams Argus's synthetic telemetry to the terminal."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+argus-core = { path = "../argus-core" }
+argus-ingest = { path = "../argus-ingest" }
+
+[lints]
+workspace = true
