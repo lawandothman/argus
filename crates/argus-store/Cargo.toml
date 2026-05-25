@@ -1,0 +1,18 @@
+[package]
+name = "argus-store"
+version = "0.1.0"
+description = "Embedded storage engine for Argus — compressed metrics, traces, and logs."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+argus-core = { path = "../argus-core" }
+
+[dev-dependencies]
+argus-ingest = { path = "../argus-ingest" }
+
+[lints]
+workspace = true
