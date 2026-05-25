@@ -26,6 +26,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "argus-query"
+version = "0.1.0"
+dependencies = [
+ "argus-core",
+ "argus-ingest",
+ "argus-store",
+]
+
+[[package]]
 name = "argus-store"
 version = "0.1.0"
 dependencies = [
