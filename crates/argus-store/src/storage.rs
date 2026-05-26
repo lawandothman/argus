@@ -25,6 +25,9 @@ pub trait Storage {
     /// Root spans (trace entry points) whose start falls within `range`.
     fn root_spans_in_range(&self, range: TimeRange) -> Vec<Span>;
 
+    /// All logs whose timestamp falls within `range`.
+    fn logs_in_range(&self, range: TimeRange) -> Vec<LogRecord>;
+
     /// A snapshot of current contents and compression.
     fn stats(&self) -> StorageStats;
 

@@ -55,6 +55,7 @@ dependencies = [
 name = "argusd"
 version = "0.1.0"
 dependencies = [
+ "argus-anomaly",
  "argus-core",
  "argus-ingest",
  "argus-query",

@@ -2,8 +2,8 @@
 //! engines behind an HTTP API. Run with `--demo` to feed it synthetic
 //! telemetry.
 
+mod api;
 mod feed;
-mod routes;
 mod state;
 
 use std::time::Duration;
@@ -24,7 +24,7 @@ async fn main() {
         println!("argusd: seeded demo telemetry; live feed running");
     }
 
-    let app = routes::router(state).layer(tower_http::cors::CorsLayer::permissive());
+    let app = api::router(state).layer(tower_http::cors::CorsLayer::permissive());
 
     let addr = format!("0.0.0.0:{port}");
     let listener = tokio::net::TcpListener::bind(&addr)

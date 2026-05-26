@@ -4,6 +4,8 @@ use std::collections::HashMap;
 
 use argus_core::{LogRecord, TraceId};
 
+use crate::query::TimeRange;
+
 #[derive(Debug, Default)]
 pub struct LogStore {
     records: Vec<LogRecord>,
@@ -26,6 +28,15 @@ impl LogStore {
             .into_iter()
             .flatten()
             .filter_map(|&position| self.records.get(position).cloned())
+            .collect()
+    }
+
+    /// All logs whose timestamp falls within `range`.
+    pub fn in_range(&self, range: TimeRange) -> Vec<LogRecord> {
+        self.records
+            .iter()
+            .filter(|record| range.contains(record.timestamp))
+            .cloned()
             .collect()
     }
 
