@@ -1,0 +1,19 @@
+[package]
+name = "argus-anomaly"
+version = "0.1.0"
+description = "Explainable anomaly detection for Argus: EWMA, MAD, Holt-Winters, CUSUM, with cause correlation."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+argus-core = { path = "../argus-core" }
+argus-store = { path = "../argus-store" }
+
+[dev-dependencies]
+argus-ingest = { path = "../argus-ingest" }
+
+[lints]
+workspace = true

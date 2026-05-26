@@ -3,6 +3,15 @@
 version = 4
 
 [[package]]
+name = "argus-anomaly"
+version = "0.1.0"
+dependencies = [
+ "argus-core",
+ "argus-ingest",
+ "argus-store",
+]
+
+[[package]]
 name = "argus-core"
 version = "0.1.0"
 dependencies = [

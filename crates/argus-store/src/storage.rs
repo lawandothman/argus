@@ -22,6 +22,9 @@ pub trait Storage {
     /// The logs correlated to a trace.
     fn logs_for_trace(&self, id: &TraceId) -> Vec<LogRecord>;
 
+    /// Root spans (trace entry points) whose start falls within `range`.
+    fn root_spans_in_range(&self, range: TimeRange) -> Vec<Span>;
+
     /// A snapshot of current contents and compression.
     fn stats(&self) -> StorageStats;
 

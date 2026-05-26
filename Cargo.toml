@@ -5,6 +5,7 @@ members = [
     "crates/argus-ingest",
     "crates/argus-store",
     "crates/argus-query",
+    "crates/argus-anomaly",
     "crates/argus-demo",
 ]
 

@@ -45,6 +45,10 @@ impl Storage for MemoryEngine {
         self.logs.for_trace(id)
     }
 
+    fn root_spans_in_range(&self, range: TimeRange) -> Vec<Span> {
+        self.traces.roots_in_range(range)
+    }
+
     fn stats(&self) -> StorageStats {
         StorageStats {
             series: self.metrics.series_count(),
