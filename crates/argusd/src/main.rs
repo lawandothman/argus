@@ -3,6 +3,7 @@
 //! telemetry.
 
 mod api;
+mod event;
 mod feed;
 mod state;
 

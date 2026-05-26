@@ -4,6 +4,7 @@ mod anomalies;
 mod logs;
 mod query;
 mod stats;
+mod stream;
 mod traces;
 
 use argus_core::{LogRecord, Span, Timestamp};
@@ -23,6 +24,7 @@ pub fn router(state: AppState) -> Router {
         .route("/api/trace/{id}", get(traces::detail))
         .route("/api/logs", get(logs::list))
         .route("/api/anomalies", get(anomalies::detect))
+        .route("/api/stream", get(stream::stream))
         .with_state(state)
 }
 
