@@ -1,0 +1,23 @@
+[package]
+name = "argusd"
+version = "0.1.0"
+description = "The Argus server: ingest, store, query, and detect, behind an HTTP + WebSocket API."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+argus-core = { path = "../argus-core" }
+argus-store = { path = "../argus-store" }
+argus-query = { path = "../argus-query" }
+argus-ingest = { path = "../argus-ingest" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+axum = "0.8.9"
+tokio = { version = "1.52.3", features = ["full"] }
+tower-http = { version = "0.6.11", features = ["cors"] }
+
+[lints]
+workspace = true
