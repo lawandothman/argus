@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/* ── Argus design tokens ───────────────────────────────────────────────
+   Editorial-dark: a cool-tinted near-black with restrained accents. Teal is
+   the one dominant accent; amber is reserved for anomalies; rose for failure. */
+@theme {
+  --color-bg: #0a0c10;
+  --color-surface: #0f1319;
+  --color-elevated: #151a22;
+  --color-line: #222a35;
+  --color-text: #e6eaef;
+  --color-muted: #8a94a3;
+  --color-faint: #586273;
+
+  --color-teal: #5eead4;
+  --color-violet: #a78bfa;
+  --color-amber: #fbbf24;
+  --color-rose: #fb7185;
+  --color-green: #34d399;
+
+  --font-display: var(--ff-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--ff-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--ff-mono), ui-monospace, "SF Mono", monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* one faint ambient wash — not a glow on every element */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      820px 460px at 88% -12%,
+      color-mix(in oklab, var(--color-teal) 6%, transparent),
+      transparent 62%
+    );
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-teal) 28%, transparent);
+  }
+}
+
+/* tabular, slashed-zero numerals wherever data lives */
+.nums {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
