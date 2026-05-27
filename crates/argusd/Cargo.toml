@@ -18,7 +18,9 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 axum = { version = "0.8.9", features = ["ws"] }
 tokio = { version = "1.52.3", features = ["full"] }
-tower-http = { version = "0.6.11", features = ["cors"] }
+tower-http = { version = "0.6.11", features = ["cors", "trace"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 
 [lints]
 workspace = true
