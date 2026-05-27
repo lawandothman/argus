@@ -3,6 +3,7 @@
 mod anomalies;
 mod logs;
 mod query;
+mod services;
 mod stats;
 mod stream;
 mod traces;
@@ -22,6 +23,7 @@ pub fn router(state: AppState) -> Router {
         .route("/api/query", get(query::query))
         .route("/api/traces", get(traces::list))
         .route("/api/trace/{id}", get(traces::detail))
+        .route("/api/services", get(services::list))
         .route("/api/logs", get(logs::list))
         .route("/api/anomalies", get(anomalies::detect))
         .route("/api/stream", get(stream::stream))
