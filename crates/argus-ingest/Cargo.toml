@@ -10,6 +10,13 @@ repository.workspace = true
 
 [dependencies]
 argus-core = { path = "../argus-core" }
+opentelemetry-proto = { version = "0.32.0", default-features = false, features = [
+    "gen-tonic-messages",
+    "with-serde",
+    "trace",
+] }
+prost = "0.14"
+serde_json = { workspace = true }
 
 [lints]
 workspace = true

@@ -2,6 +2,7 @@
 
 mod anomalies;
 mod logs;
+mod otlp;
 mod query;
 mod services;
 mod stats;
@@ -11,7 +12,7 @@ mod traces;
 use argus_core::{LogRecord, Span, Timestamp};
 use argus_store::TimeRange;
 use axum::Router;
-use axum::routing::get;
+use axum::routing::{get, post};
 use serde_json::{Value as JsonValue, json};
 
 use crate::state::AppState;
@@ -27,6 +28,7 @@ pub fn router(state: AppState) -> Router {
         .route("/api/logs", get(logs::list))
         .route("/api/anomalies", get(anomalies::detect))
         .route("/api/stream", get(stream::stream))
+        .route("/v1/traces", post(otlp::ingest_traces))
         .with_state(state)
 }
 
