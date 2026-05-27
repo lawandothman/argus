@@ -105,6 +105,11 @@ impl DemoGenerator {
         let status_code = if failed { "500" } else { "200" };
         let route = "/checkout";
 
+        // The entry span only knows the overall status once its children return.
+        spans[root_idx]
+            .attributes
+            .insert("http.status_code", if failed { 500_i64 } else { 200 });
+
         let metrics = vec![
             MetricPoint::new(
                 "http_request_duration_ms",
@@ -171,6 +176,7 @@ impl Building<'_> {
         let service = call.service;
         let span_id = SpanId::from_bytes(self.rng.bytes8());
         let index = self.spans.len();
+        let attributes = span_attributes(service.name, self.rng);
 
         self.spans.push(Span {
             trace_id: self.trace_id,
@@ -185,7 +191,7 @@ impl Building<'_> {
             start,
             end: start,
             status: SpanStatus::Ok,
-            attributes: Attributes::new().with("service.name", service.name),
+            attributes,
             resource: Resource::service(service.name),
         });
 
@@ -231,6 +237,69 @@ impl Building<'_> {
 /// Advance a timestamp by a number of (fractional) milliseconds.
 fn advance(at: Timestamp, millis: f64) -> Timestamp {
     Timestamp::from_unix_nanos(at.as_unix_nanos() + (millis * 1_000_000.0) as u64)
+}
+
+/// Realistic, OTel-style attributes for a service's span, so a trace carries
+/// the kind of context an operator would actually inspect.
+fn span_attributes(service: &str, rng: &mut Rng) -> Attributes {
+    let mut attributes = Attributes::new().with("service.name", service);
+    match service {
+        "api-gateway" => {
+            attributes.insert("http.method", "GET");
+            attributes.insert("http.route", "/checkout");
+            attributes.insert("http.scheme", "https");
+            attributes.insert(
+                "net.peer.ip",
+                format!(
+                    "10.{}.{}.{}",
+                    rng.range(0, 256),
+                    rng.range(0, 256),
+                    rng.range(1, 255)
+                ),
+            );
+        }
+        "auth" => {
+            attributes.insert("auth.method", "jwt");
+            attributes.insert("enduser.id", format!("u_{:06}", rng.range(1, 1_000_000)));
+            attributes.insert("auth.token.ttl_s", rng.range(60, 3600) as i64);
+        }
+        "catalog" => {
+            attributes.insert("catalog.items", rng.range(1, 24) as i64);
+            attributes.insert("cache.hit", rng.chance(0.7));
+            attributes.insert("catalog.region", "eu-west-1");
+        }
+        "cart" => {
+            attributes.insert(
+                "cart.id",
+                format!("cart_{:08x}", rng.next_u64() & 0xffff_ffff),
+            );
+            attributes.insert("cart.items", rng.range(1, 12) as i64);
+            attributes.insert("cart.value_usd", rng.range(500, 50_000) as f64 / 100.0);
+        }
+        "payments" => {
+            attributes.insert("payment.provider", "stripe");
+            attributes.insert("payment.currency", "USD");
+            attributes.insert("payment.amount_usd", rng.range(500, 50_000) as f64 / 100.0);
+            attributes.insert("payment.card.brand", card_brand(rng));
+            attributes.insert("payment.retries", rng.range(0, 3) as i64);
+        }
+        "postgres" => {
+            attributes.insert("db.system", "postgresql");
+            attributes.insert("db.statement", "SELECT * FROM orders WHERE cart_id = $1");
+            attributes.insert("db.rows", rng.range(0, 8) as i64);
+            attributes.insert("db.pool.in_use", rng.range(1, 20) as i64);
+        }
+        _ => {}
+    }
+    attributes
+}
+
+fn card_brand(rng: &mut Rng) -> &'static str {
+    match rng.range(0, 3) {
+        0 => "visa",
+        1 => "mastercard",
+        _ => "amex",
+    }
 }
 
 /// A plausible error message for a given service.

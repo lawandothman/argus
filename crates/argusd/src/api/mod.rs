@@ -54,6 +54,7 @@ fn span_to_json(span: &Span) -> JsonValue {
         "status": format!("{:?}", span.status),
         "start_ns": span.start.as_unix_nanos(),
         "duration_ms": span.duration_nanos() as f64 / 1_000_000.0,
+        "attributes": serde_json::to_value(&span.attributes).unwrap_or_default(),
     })
 }
 
@@ -64,5 +65,6 @@ fn log_to_json(log: &LogRecord) -> JsonValue {
         "body": log.body,
         "service": log.resource.service_name().unwrap_or("?"),
         "trace_id": log.trace_id.map(|id| id.to_hex()),
+        "span_id": log.span_id.map(|id| id.to_hex()),
     })
 }
